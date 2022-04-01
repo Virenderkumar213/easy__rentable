@@ -1,10 +1,20 @@
 import React, {useState} from 'react';
-import {StyleSheet, Text, View, Image, ScrollView} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  ScrollView,
+  Dimensions,
+  Platform,
+} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {KeyboardAvoidingView, TextInput, TouchableOpacity} from 'react-native';
 import {auth} from '../Screens/firebase';
 import FirebaseFirestore from '@react-native-firebase/firestore';
 import {firebase} from '../Screens/firebase';
+import PropTypes from 'prop-types';
+import Item from '../Screens/item'
 
 const HomeScreen = () => {
   const navigation = useNavigation();
@@ -28,53 +38,26 @@ const HomeScreen = () => {
     });
 
   return (
-    <View style={styles.container}>
-      {/* <Text>HomeScreen</Text> */}
-      <View>
-        <ScrollView>
-          <Image
-            source={require('../pictures/images/1.png')}
-            style={{
-              width: 350,
-              height: 200,
-              borderRadius: 20,
-              marginBottom: 15,
-            }}></Image>
-          <Image
-            source={require('../pictures/images/2.png')}
-            style={{
-              width: 350,
-              height: 200,
-              borderRadius: 20,
-              marginBottom: 15,
-            }}></Image>
-          <Image
-            source={require('../pictures/images/3.png')}
-            style={{
-              width: 350,
-              height: 150,
-              borderRadius: 20,
-              marginBottom: 15,
-            }}></Image>
-          <Image
-            source={require('../pictures/images/4.png')}
-            style={{
-              width: 350,
-              height: 150,
-              borderRadius: 20,
-              marginBottom: 15,
-            }}></Image>
-          <Image
-            source={require('../pictures/images/5.png')}
-            style={{width: 350, height: 150, borderRadius: 20}}></Image>
-
-          {/*         
-        <Text>{product.price}</Text>
-        {/* <button title="Add to Cart" onPress={handlePress} /> */}
-          {/* <Text>{product.description}</Text> */}
-        </ScrollView>
+    <View>
+      <Item/>
+      <Item/>
       </View>
-    </View>
+    // <View style={styles.container}>
+    //   {/* <Text>HomeScreen</Text> */}
+    //   <View>
+    //     <ScrollView>
+    //       <View style={styles.container}>
+    //         <View
+    //           style={
+    //            styles.item
+    //           }>
+    //           <TouchableOpacity onPress={()=>{}}>
+    //           </TouchableOpacity>
+    //         </View>
+    //       </View>
+    //     </ScrollView>
+    //   </View>
+    // </View>
   );
 };
 
@@ -99,4 +82,12 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     fontSize: 16,
   },
+  item:{
+    backgroundColor:"black" ,
+       overflow: 'hidden',
+            padding: 5,
+                width: 5,
+                borderRadius: 1,
+
+  }  
 });

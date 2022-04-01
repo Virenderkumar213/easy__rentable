@@ -11,6 +11,8 @@ import AccountScreen from './Screens/Account';
 //import AdminLoginScreen from './Screens/Admin/AdminLogin';
 import Categories from './Screens/Categories';
 import PostAd from './Screens/PostAd';
+import MyCart from './Screens/MyCart'
+import DetailScreen from './Screens/DetailScreen';
 
 const Stack = createStackNavigator();
 
@@ -29,7 +31,13 @@ const TabNavigation = () => {
         component={AccountScreen}
         options={{headerShown: false}}
       />
+       <Tab.Screen
+        name="Detail"
+        component={DetailScreen}
+        options={{headerShown: false}}
+      />
       <Tab.Screen name="PostAd" component={PostAd} />
+      <Tab.Screen name="My Cart" component={MyCart} />
       <Tab.Screen
         name="Categories"
         options={{headerShown: false}}
