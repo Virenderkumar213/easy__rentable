@@ -1,11 +1,13 @@
 import React from 'react';
+import {View} from 'react-native';
+import ListedItem from '../Screens/ListedItem';
 
 function MyCart(props) {
-    return (
-        <div>
-            
-        </div>
-    );
+  return (
+    <View>
+      <ListedItem />
+    </View>
+  );
 }
 
-export default MyCart
+export default MyCart;

@@ -1,10 +1,13 @@
 import React from 'react';
+import { View,Text } from 'react-native';
 
 function DetailScreen(props) {
     return (
-        <div>
-            
-        </div>
+        <View>
+            <Text>
+                Virender
+            </Text>
+        </View>
     );
 }
 
