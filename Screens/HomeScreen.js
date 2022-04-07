@@ -14,7 +14,7 @@ import {auth} from '../Screens/firebase';
 import FirebaseFirestore from '@react-native-firebase/firestore';
 import {firebase} from '../Screens/firebase';
 import PropTypes from 'prop-types';
-import Item from '../Screens/item'
+import Item from '../Screens/item';
 
 const HomeScreen = () => {
   const navigation = useNavigation();
@@ -27,21 +27,32 @@ const HomeScreen = () => {
       })
       .catch(error => alert(error.message));
   };
-  firebase
-    .firestore()
+
+  //fetching items from database
+  let data = [];
+  firestore.enableLogging(true)
+  firebase.firestore()
     .collection('product')
     .get()
     .then(querySnapshot => {
       querySnapshot.forEach(documentSnapshot => {
         let data = documentSnapshot.data();
+        console.log(data);
       });
     });
+  // const data = [
+  //   {id: 1, name: 'PS4', Price: 500},
+  //   {id: 2, name: 'camera', Price: 199},
+  //   {id: 3, name: 'gaming', Price: 900},
+  //   {id: 4, name: 'laptop', Price: 600},
+  //   {id: 5, name: 'Computer', Price: 800},
+  // ];
+  const renderList = data.map(item => {
+    return <Item key={item.id} name={item.name} Price={item.Price} />;
+  });
 
   return (
-    <View>
-      <Item/>
-      <Item/>
-      </View>
+    <ScrollView>{renderList}</ScrollView>
     // <View style={styles.container}>
     //   {/* <Text>HomeScreen</Text> */}
     //   <View>
@@ -82,12 +93,11 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     fontSize: 16,
   },
-  item:{
-    backgroundColor:"black" ,
-       overflow: 'hidden',
-            padding: 5,
-                width: 5,
-                borderRadius: 1,
-
-  }  
+  item: {
+    backgroundColor: 'black',
+    overflow: 'hidden',
+    padding: 5,
+    width: 5,
+    borderRadius: 1,
+  },
 });

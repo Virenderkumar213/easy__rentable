@@ -4,11 +4,12 @@ import {NavigationContainer, useNavigation} from '@react-navigation/native';
 import {Component} from 'react/cjs/react.production.min';
 import {Card, ListItem, Button, Icon} from 'react-native-elements';
 
-const Item = () => {
+const Item = (props) => {
   const navigation = useNavigation();
   return (
     <View>
-      <Text>Virender</Text>
+      <Text>{props.name}</Text>
+      <Text>{props.Price}</Text>
       <Card title="CARD WITH DIVIDER">
         <Image
           source={require('../pictures/images/1.png')}

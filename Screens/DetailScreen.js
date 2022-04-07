@@ -19,9 +19,6 @@ function DetailScreen(props) {
           }}></Image>
         <Button
           style={{}}
-          onPress={() => {
-            navigation.navigate('Detail');
-          }}
           title="Add to Cart"
           color="#841584"
         />

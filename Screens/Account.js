@@ -1,8 +1,11 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {KeyboardAvoidingView, TextInput, TouchableOpacity} from 'react-native';
 import {auth} from '../Screens/firebase';
+import {Picker} from '@react-native-picker/picker';
+//import {Dropdown} from 'react-native-material-dropdown'
+import {Card, ListItem, Button, Icon} from 'react-native-elements';
 
 const AccountScreen = () => {
   const navigation = useNavigation();
@@ -15,9 +18,23 @@ const AccountScreen = () => {
       })
       .catch(error => alert(error.message));
   };
+  const [pickervalue, setpickervalue] = useState('User Detail');
 
   return (
     <View style={styles.container}>
+      <View style={styles.Card}>
+        <Picker
+          style={styles.pickers}
+          selectedValue={pickervalue}
+          onValueChange={itemValue => setpickervalue(itemValue)}>
+          <Picker.item label="javaScript" value="javascript" />
+          <Picker.item label="fluter" value="fluter" />
+          <Picker.item label="java" value="java" />
+        </Picker>
+      </View>
+      <Button color="#ff5c5c" style={{}} title="My Orders" />
+      <Button color="#ff5c5c" style={{}} title="Sign Out" />
+
       <Text>Email: {auth.currentUser?.email}</Text>
       <TouchableOpacity onPress={handleSignOut} style={styles.button}>
         <Text style={styles.buttonText}>Sign out</Text>
@@ -27,7 +44,6 @@ const AccountScreen = () => {
 };
 
 export default AccountScreen;
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -46,5 +62,10 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: '700',
     fontSize: 16,
+  },
+  pickers: {
+    width: 300,
+    height: 45,
+    borderColor: 'blue',
   },
 });
