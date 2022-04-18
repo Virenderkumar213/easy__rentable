@@ -33,7 +33,7 @@ const ListedItem = () => {
           <Text> 1 </Text>
           <Button style={{backgroundColor: 'black'}} title="+" color="black" />
 
-          <Button color="#ff5c5c" style={{}} title="Delete" />
+          {/* <Button color="#ff5c5c" style={{}} title="Delete" /> */}
         </View>
       </Card>
     </View>

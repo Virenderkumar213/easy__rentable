@@ -8,9 +8,15 @@ const MyCart = () => {
   const navigation = useNavigation();
   return (
     <View>
-      <Button onPress={navigation.navigate('Check Out')} />
-
       <ListedItem />
+      <Button 
+         style={{flex:1}}
+         title="Check Out"
+         color="#841584"
+         onPress={() => {
+           navigation.navigate('My Cart');
+         }}
+        />
     </View>
   );
 };

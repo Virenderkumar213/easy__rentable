@@ -7,6 +7,7 @@ import {Card, ListItem, Button, Icon} from 'react-native-elements';
 const Item = (props) => {
   const navigation = useNavigation();
   return (
+    
     <View>
       <Text>{props.name}</Text>
       <Text>{props.Price}</Text>
@@ -22,7 +23,15 @@ const Item = (props) => {
         <Text style={{}}>ps4</Text>
         <Text>500/Day</Text>
         <Text>this is Ps4 game ahjbbsbsbdbdw</Text>
-        <Button>Add to Cart</Button>
+        <Button 
+         style={{}}
+         title="Add To Cart"
+         color="#841584"
+         onPress={() => {
+           navigation.navigate('My Cart');
+         }}
+        
+        />
         <Button
           style={{}}
           onPress={() => {

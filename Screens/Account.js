@@ -27,8 +27,8 @@ const AccountScreen = () => {
           style={styles.pickers}
           selectedValue={pickervalue}
           onValueChange={itemValue => setpickervalue(itemValue)}>
-          <Picker.item label="javaScript" value="javascript" />
-          <Picker.item label="fluter" value="fluter" />
+          <Picker.item label="User Name" value="User Name" />
+          <Picker.item label="Email" value="Email" />
           <Picker.item label="java" value="java" />
         </Picker>
       </View>

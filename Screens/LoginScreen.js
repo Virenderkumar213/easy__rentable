@@ -20,9 +20,11 @@ const LoginScreen = () => {
         navigation.replace('Home');
       }
     });
+    
 
     return unsubscribe;
   }, []);
+  
 
   const handleLogin = () => {
     navigation.replace('Home');
@@ -65,7 +67,9 @@ const LoginScreen = () => {
             <Text style={styles.Adminbuttontext}>Admin</Text>
           </TouchableOpacity>
         </View>
-        <View style={{margin: 20, padding: 5}}></View>
+        <View style={{margin: 20, padding: 5}}
+        
+        ></View>
         <View style={{alignItems: 'center', justifyContent: 'center'}}>
           <Image
             source={require('../pictures/images/background.png')}
