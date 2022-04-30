@@ -15,10 +15,12 @@ import MyCart from './Screens/MyCart'
 import DetailScreen from './Screens/DetailScreen';
 import CheckOut from './Screens/CheckOut';
 import Invoice from './Screens/Invoice';
+import firebase from 'firebase';
 
 const Stack = createStackNavigator();
 
 const Tab = createBottomTabNavigator();
+
 
 const TabNavigation = () => {
   return (
@@ -43,7 +45,21 @@ const TabNavigation = () => {
     </Tab.Navigator>
   );
 };
+// //code for firebase
 
+// componentDidMount() 
+// {
+// fire = new firebase((error , user)=>{
+//   if(error){
+//     return alert("something went wrong")
+//   }
+//   this.setState({user})
+// });
+
+// }
+
+
+//end code firebase
 function App() {
   return (
     <NavigationContainer>

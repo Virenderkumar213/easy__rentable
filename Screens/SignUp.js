@@ -1,40 +1,33 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-import {auth} from '../Screens/firebase';
 import {useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {useEffect} from 'react';
-import react, {component} from 'react';
 import {KeyboardAvoidingView, TextInput, TouchableOpacity} from 'react-native';
-import {render} from 'react-dom';
+import {firebase} from '../Screens/firebase';
 
-const SignUpScreen = () => {
+function SignUpScreen() {
+  const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [FirstName, setFirstname] = useState('');
-  const [LastName, setLastname] = useState('');
-  const [MobileNumber, setMobileNumber] = useState('');
-  const [CNIC, setCNIC] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [mobileNumber, setMobileNumber] = useState('');
   const navigation = useNavigation();
 
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(user => {
-      if (user) {
-        navigation.replace('Home');
-      }
-    });
-
-    return unsubscribe;
-  }, []);
 
   const handleSignUp = () => {
+    if (password !== confirmPassword) {
+      alert("Passwords don't match.");
+      return;
+    }
+
     let em = email;
     let atpos = em.indexOf('@');
     let domain = em.split('@')[1];
 
     if (em == null || em == '') {
       alert('Email can not be empty.');
-      return false;
+      return;
     } else if (atpos < 1 || domain != 'szabist.pk') {
       alert(
         'Not a valid e-mail address. Please write your gmail address like this: BBA1234567@szabist.pk.' +
@@ -44,53 +37,44 @@ const SignUpScreen = () => {
           '',
       );
 
-      return false;
+      return;
     } else {
-      auth
+      firebase
+        .auth()
         .createUserWithEmailAndPassword(email, password)
-        .then(userCredentials => {
-          const user = userCredentials.user;
-
-          console.log('Registered with:', user.email);
+        .then(response => {
+          const uid = response.user.uid;
+          const data = {
+            id: uid,
+            email,
+            fullName,
+            mobileNumber,
+          };
+          const usersRef = firebase.firestore().collection('users');
+          usersRef
+            .doc(uid)
+            .set(data)
+            .then(() => {
+              alert("register successful")
+              navigation.navigate('Home');
+            })
+            .catch(error => {
+              alert(error);
+            });
         })
-        .catch(error => alert(error.message));
+        .catch(error => {
+          alert(error);
+        });
+     
     }
   };
-  const handleLogin = () => {
-    auth
-      .signInWithEmailAndPassword(email, password)
-      .then(userCredentials => {
-        const user = userCredentials.user;
-        console.log('Logged in with:', user.email);
-      })
-      .catch(error => alert(error.message));
-  };
-
   return (
     <KeyboardAvoidingView style={styles.container}>
       <View style={styles.inputContainer}>
         <TextInput
-          placeholder="First Name"
-          value={FirstName}
-          onChangeText={text => setFirstname(text)}
-          style={styles.input}
-        />
-        <TextInput
-          placeholder="Last Name"
-          value={LastName}
-          onChangeText={text => setLastname(text)}
-          style={styles.input}
-        />
-        <TextInput
-          placeholder="Mobile Number"
-          value={MobileNumber}
-          onChangeText={text => setMobileNumber(text)}
-          style={styles.input}
-        />
-        <TextInput
-          placeholder="CNIC"
-          value={CNIC}
-          onChangeText={text => setCNIC(text)}
+          placeholder="Full Name"
+          value={fullName}
+          onChangeText={text => setFullName(text)}
           style={styles.input}
         />
         <TextInput
@@ -100,9 +84,22 @@ const SignUpScreen = () => {
           style={styles.input}
         />
         <TextInput
+          placeholder="Mobile Number"
+          value={mobileNumber}
+          onChangeText={text => setMobileNumber(text)}
+          style={styles.input}
+        />
+        <TextInput
           placeholder="Password"
           value={password}
           onChangeText={text => setPassword(text)}
+          style={styles.input}
+          secureTextEntry
+        />
+        <TextInput
+          placeholder="Confirm Password"
+          value={confirmPassword}
+          onChangeText={text => setConfirmPassword(text)}
           style={styles.input}
           secureTextEntry
         />
@@ -125,7 +122,7 @@ const SignUpScreen = () => {
       </View>
     </KeyboardAvoidingView>
   );
-};
+}
 
 export default SignUpScreen;
 
@@ -176,5 +173,37 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: '700',
     fontSize: 16,
+  },
+  EmailInput: {
+    backgroundColor: 'white',
+    paddingHorizontal: 58,
+    paddingVertical: 10,
+    borderRadius: 10,
+    marginTop: 5,
+    borderColor: 'Maroon',
+    borderWidth: 1,
+  },
+
+  passwordInput: {
+    backgroundColor: 'white',
+    paddingHorizontal: 58,
+    paddingVertical: 10,
+    borderRadius: 10,
+    marginTop: 5,
+    borderColor: 'black',
+    borderWidth: 1,
+  },
+  brandViewText: {
+    color: '#ffffff',
+    fontSize: 40,
+    fontWeight: 'bold',
+    textTransform: 'uppercase',
+  },
+  bottomview: {
+    flex: 1.5,
+    backgroundColor: '#ffffff',
+    bottom: 50,
+    borderTopStartRadius: 60,
+    borderTopEndRadius: 60,
   },
 });

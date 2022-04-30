@@ -10,7 +10,7 @@ const Item = (props) => {
     
     <View>
       <Text>{props.name}</Text>
-      <Text>{props.Price}</Text>
+      <Text>{props.price}</Text>
       <Card title="CARD WITH DIVIDER">
         <Image
           source={require('../pictures/images/1.png')}
@@ -20,7 +20,7 @@ const Item = (props) => {
             borderRadius: 20,
             marginBottom: 15,
           }}></Image>
-        <Text style={{}}>ps4</Text>
+        <Text style={{}}>{props.name}</Text>
         <Text>500/Day</Text>
         <Text>this is Ps4 game ahjbbsbsbdbdw</Text>
         <Button 

@@ -1,33 +1,48 @@
 import React from 'react';
-import {StyleSheet, Text, View, Image} from 'react-native';
-import {auth} from '../Screens/firebase';
+import {StyleSheet, Text, View, Image, ImageBackground} from 'react-native';
 import {useState} from 'react';
 import {NavigationContainer, useNavigation} from '@react-navigation/native';
-import {useEffect} from 'react';
-import {KeyboardAvoidingView, TextInput, TouchableOpacity} from 'react-native';
+import {
+  KeyboardAvoidingView,
+  TextInput,
+  TouchableOpacity,
+  Dimensions,
+} from 'react-native';
 import {ScrollView} from 'react-native';
-import HomeScreen from './HomeScreen';
+import { firebase } from '../Screens/firebase';
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const navigation = useNavigation();
-
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(user => {
-      if (user == setEmail && setPassword) {
-        navigation.replace('Home');
-      }
-    });
-    
-
-    return unsubscribe;
-  }, []);
-  
-
   const handleLogin = () => {
     navigation.replace('Home');
+    firebase
+    .auth()
+    .signInWithEmailAndPassword(email, password)
+    .then((response) => {
+        const uid = response.user.uid
+        const usersRef = firebase.firestore().collection('users')
+        usersRef
+            .doc(uid)
+            .get()
+            .then(firestoreDocument => {
+                if (!firestoreDocument.exists) {
+                    alert("User does not exist anymore.")
+                    return;
+                }
+                const user = firestoreDocument.data()
+                navigation.navigate('Home', {user})
+            })
+            .catch(error => {
+                alert(error)
+            });
+    })
+    .catch(error => {
+        alert(error)
+    })
+    //navigation.replace('Home');
     //   let em = email;
     //   let atpos = em.indexOf("@");
     //   let domain = em.split("@")[1];
@@ -57,19 +72,38 @@ const LoginScreen = () => {
         style={{
           flex: 1,
           backgroundColor: 'white',
-          justifyContent: 'center',
-          alignItems: 'center',
-          margin: 10,
-          backgroundColor: 'white',
-        }}>
+        }}
+        showsVerticalScrollIndicator={false}>
+        <ImageBackground
+          source={require('../pictures/images/backkk.png')}
+          style={{
+            height: Dimensions.get('window').height / 2.5,
+          }}>
+          <View style={{alignItems: 'center', justifyContent: 'center'}}>
+            <Image
+              source={require('../pictures/images/background.png')}
+              style={{width: 178, height: 150}}></Image>
+          </View>
+        </ImageBackground>
+        <View style={styles.bottomview}>
+          <View style={{padding: 40}}>
+            <Text style={{color: '#800000', fontSize: 34}}>Welcome</Text>
+            <Text>
+              Don't have an account?
+              <Text style={{color: '#800000', fontStyle: 'italic'}}>
+                Register now
+              </Text>
+            </Text>
+            <View style={{marginTop: 50}}></View>
+          </View>
+        </View>
+
         <View style={{flex: 0.2, margin: 30}}>
           <TouchableOpacity onPress={() => navigation.navigate('Admin')}>
             <Text style={styles.Adminbuttontext}>Admin</Text>
           </TouchableOpacity>
         </View>
-        <View style={{margin: 20, padding: 5}}
-        
-        ></View>
+        <View style={{margin: 20, padding: 5}}></View>
         <View style={{alignItems: 'center', justifyContent: 'center'}}>
           <Image
             source={require('../pictures/images/background.png')}
@@ -77,11 +111,10 @@ const LoginScreen = () => {
         </View>
         <View style={styles.inputContainer}>
           <TextInput
-            style={{width: '70%', display: 'flex', alignItems: 'center'}}
             placeholder="Email"
             value={email}
             onChangeText={text => setEmail(text)}
-            styles={styles.input}
+            styles={styles.EmailInput}
           />
           <TextInput
             placeholder="Password"
@@ -131,7 +164,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     borderRadius: 10,
     marginTop: 5,
-    borderColor: 'black',
+    borderColor: 'maroon',
     borderWidth: 1,
   },
   buttonContainer: {
@@ -140,14 +173,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   button: {
-    backgroundColor: '#0782F9',
+    backgroundColor: '#800000',
     width: 120,
 
     padding: 15,
     borderRadius: 10,
   },
   buttonOutline: {
-    backgroundColor: 'blue',
+    backgroundColor: 'maroon',
     marginTop: 5,
     borderColor: '#0782F9',
     borderWidth: 2,
@@ -162,6 +195,15 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 18,
   },
+  EmailInput: {
+    backgroundColor: 'white',
+    paddingHorizontal: 58,
+    paddingVertical: 10,
+    borderRadius: 10,
+    marginTop: 5,
+    borderColor: 'Maroon',
+    borderWidth: 1,
+  },
 
   passwordInput: {
     backgroundColor: 'white',
@@ -171,6 +213,19 @@ const styles = StyleSheet.create({
     marginTop: 5,
     borderColor: 'black',
     borderWidth: 1,
+  },
+  brandViewText: {
+    color: '#ffffff',
+    fontSize: 40,
+    fontWeight: 'bold',
+    textTransform: 'uppercase',
+  },
+  bottomview: {
+    flex: 1.5,
+    backgroundColor: '#ffffff',
+    bottom: 50,
+    borderTopStartRadius: 60,
+    borderTopEndRadius: 60,
   },
 });
 export default LoginScreen;
