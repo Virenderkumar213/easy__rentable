@@ -3,90 +3,77 @@ import {StyleSheet, Text, View} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import react, {component} from 'react';
 import LoginScreen from './Screens/LoginScreen';
 import HomeScreen from './Screens/HomeScreen';
 import SignUpScreen from './Screens/SignUp';
 import AccountScreen from './Screens/Account';
-//import AdminLoginScreen from './Screens/Admin/AdminLogin';
 import Categories from './Screens/Categories';
 import PostAd from './Screens/PostAd';
-import MyCart from './Screens/MyCart'
+import MyCart from './Screens/MyCart';
 import DetailScreen from './Screens/DetailScreen';
 import CheckOut from './Screens/CheckOut';
 import Invoice from './Screens/Invoice';
-import firebase from 'firebase';
+import {useState} from 'react';
 
 const Stack = createStackNavigator();
 
 const Tab = createBottomTabNavigator();
 
-
-const TabNavigation = () => {
+const TabNavigation = props => {
+  user = props.route.params.user;
   return (
     <Tab.Navigator>
-      <Tab.Screen
-        name="Home"
-        component={HomeScreen}
-        options={{headerShown: false}}
-      />
+      <Tab.Screen name="Home">
+        {props => <HomeScreen {...props} extraData={user} />}
+      </Tab.Screen>
+
       <Tab.Screen
         name="Account"
         component={AccountScreen}
-        options={{headerShown: false}}
       />
+      
       <Tab.Screen name="PostAd" component={PostAd} />
       <Tab.Screen name="Invoice" component={Invoice} />
-            <Tab.Screen
+      <Tab.Screen
         name="Categories"
-        options={{headerShown: false}}
         component={Categories}
-      />
+      /> 
     </Tab.Navigator>
   );
 };
-// //code for firebase
-
-// componentDidMount() 
-// {
-// fire = new firebase((error , user)=>{
-//   if(error){
-//     return alert("something went wrong")
-//   }
-//   this.setState({user})
-// });
-
-// }
-
-
-//end code firebase
 function App() {
+  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState([13]);
+  console.log(user);
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen
-          options={{headerShown: false}}
-          name="Login"
-          component={LoginScreen}
-        />
-        <Stack.Screen name="My Cart" component={MyCart} />
-           <Stack.Screen
-        name="Detail"
-        component={DetailScreen}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="Check Out"
-        component={CheckOut}
-        options={{headerShown: false}}
-      />
-        <Stack.Screen
-          options={{headerShown: false}}
-          name="SignUp"
-          component={SignUpScreen}
-        />
-        <Stack.Screen name="Home" component={TabNavigation} />
-        {/* <Stack.Screen options={{ headerShown: false }} name="Admin" component={AdminLoginScreen} />*/}
+        {user.length ? (
+          <Stack.Screen
+            name="Home"
+            options={{headerShown: false}}
+            component={TabNavigation}
+            initialParams={{user}}></Stack.Screen>
+        ) : (
+          <>
+            <Stack.Screen
+              options={{headerShown: false}}
+              name="Login"
+              component={LoginScreen}
+            />
+            <Stack.Screen
+              options={{headerShown: false}}
+              name="SignUp"
+              component={SignUpScreen}
+            />
+            <Stack.Screen
+              name="Home"
+              component={TabNavigation}
+              initialParams={{user}}
+              options={{headerShown: false}}
+            />
+          </>
+        )}
       </Stack.Navigator>
     </NavigationContainer>
   );

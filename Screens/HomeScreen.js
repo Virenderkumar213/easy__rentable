@@ -9,17 +9,13 @@ import {
   Platform,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import {KeyboardAvoidingView, TextInput, TouchableOpacity} from 'react-native';
+//import TabNavigation from './Navigations';
 import {auth} from '../Screens/firebase';
-import {collection, doc, setDoc} from 'firebase/firestore';
 import {firebase, db} from '../Screens/firebase';
-import {initializeFirestore} from '@firebase/firestore';
-import PropTypes from 'prop-types';
 import Item from '../Screens/item';
-import {set} from 'react-native-reanimated';
 //import firestore from '@react-native-firebase/firestore';
 
-const HomeScreen = () => {
+const HomeScreen = props => {
   const [items, setitems] = useState([]);
   const navigation = useNavigation();
   const [boolitem, setboolitem] = useState(true);
@@ -100,8 +96,10 @@ const HomeScreen = () => {
   //   return items;
   // })
 
+
+  console.log(props.extraData);
   const renderList = items.map(item => {
-    console.log(item.ename);
+    //  console.log(props);
     return <Item key={item.id} name={item.ename} Price={item.eprice} />;
   });
   return (

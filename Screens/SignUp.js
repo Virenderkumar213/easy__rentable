@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View,ImageBackground,Dimensions,ScrollView} from 'react-native';
 import {useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {useEffect} from 'react';

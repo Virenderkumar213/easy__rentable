@@ -9,7 +9,7 @@ import {
   Dimensions,
 } from 'react-native';
 import {ScrollView} from 'react-native';
-import { firebase } from '../Screens/firebase';
+import {firebase} from '../Screens/firebase';
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
@@ -17,31 +17,31 @@ const LoginScreen = () => {
 
   const navigation = useNavigation();
   const handleLogin = () => {
-    navigation.replace('Home');
+  // navigation.navigate('Home');
     firebase
-    .auth()
-    .signInWithEmailAndPassword(email, password)
-    .then((response) => {
-        const uid = response.user.uid
-        const usersRef = firebase.firestore().collection('users')
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .then(response => {
+        const uid = response.user.uid;
+        const usersRef = firebase.firestore().collection('users');
         usersRef
-            .doc(uid)
-            .get()
-            .then(firestoreDocument => {
-                if (!firestoreDocument.exists) {
-                    alert("User does not exist anymore.")
-                    return;
-                }
-                const user = firestoreDocument.data()
-                navigation.navigate('Home', {user})
-            })
-            .catch(error => {
-                alert(error)
-            });
-    })
-    .catch(error => {
-        alert(error)
-    })
+          .doc(uid)
+          .get()
+          .then(firestoreDocument => {
+            if (!firestoreDocument.exists) {
+              alert('User does not exist anymore.');
+              return;
+            }
+            const user = firestoreDocument.data();
+            navigation.navigate('Home', {user});
+          })
+          .catch(error => {
+            alert(error);
+          });
+      })
+      .catch(error => {
+        alert(error);
+      });
     //navigation.replace('Home');
     //   let em = email;
     //   let atpos = em.indexOf("@");
@@ -90,7 +90,8 @@ const LoginScreen = () => {
             <Text style={{color: '#800000', fontSize: 34}}>Welcome</Text>
             <Text>
               Don't have an account?
-              <Text style={{color: '#800000', fontStyle: 'italic'}}>
+              <Text    onPress={() => navigation.navigate('SignUp')} 
+              style={{color: '#800000', fontStyle: 'italic'}}>
                 Register now
               </Text>
             </Text>
@@ -175,7 +176,6 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: '#800000',
     width: 120,
-
     padding: 15,
     borderRadius: 10,
   },
