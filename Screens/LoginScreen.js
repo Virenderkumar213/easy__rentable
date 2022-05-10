@@ -75,7 +75,7 @@ const LoginScreen = () => {
         }}
         showsVerticalScrollIndicator={false}>
         <ImageBackground
-          source={require('../pictures/images/backkk.png')}
+          source={require('../pictures/images/baks.jpg')}
           style={{
             height: Dimensions.get('window').height / 2.5,
           }}>
@@ -87,35 +87,21 @@ const LoginScreen = () => {
         </ImageBackground>
         <View style={styles.bottomview}>
           <View style={{padding: 40}}>
-            <Text style={{color: '#800000', fontSize: 34}}>Welcome</Text>
+            <Text style={{color: '#0000FF', fontSize: 34}}>Welcome</Text>
             <Text>
               Don't have an account?
               <Text    onPress={() => navigation.navigate('SignUp')} 
-              style={{color: '#800000', fontStyle: 'italic'}}>
+              style={{color: '#0000FF', fontStyle: 'italic'}}>
                 Register now
               </Text>
             </Text>
             <View style={{marginTop: 50}}></View>
-          </View>
-        </View>
-
-        <View style={{flex: 0.2, margin: 30}}>
-          <TouchableOpacity onPress={() => navigation.navigate('Admin')}>
-            <Text style={styles.Adminbuttontext}>Admin</Text>
-          </TouchableOpacity>
-        </View>
-        <View style={{margin: 20, padding: 5}}></View>
-        <View style={{alignItems: 'center', justifyContent: 'center'}}>
-          <Image
-            source={require('../pictures/images/background.png')}
-            style={{width: 178, height: 150}}></Image>
-        </View>
-        <View style={styles.inputContainer}>
+            <View style={styles.inputContainer}>
           <TextInput
             placeholder="Email"
             value={email}
             onChangeText={text => setEmail(text)}
-            styles={styles.EmailInput}
+            style={styles.EmailInput}
           />
           <TextInput
             placeholder="Password"
@@ -125,7 +111,7 @@ const LoginScreen = () => {
             secureTextEntry
           />
         </View>
-        <View style={{display: 'flex', alignItems: 'center'}}>
+           <View style={{display: 'flex', alignItems: 'center'}}>
           <TouchableOpacity onPress={() => handleLogin()} style={styles.button}>
             <Text style={styles.buttonText}>Login</Text>
           </TouchableOpacity>
@@ -137,8 +123,10 @@ const LoginScreen = () => {
             </TouchableOpacity>
             <View style={{margin: 10, padding: 5}}></View>
           </View>
+          <Text>Don't have an account</Text>
         </View>
-        <Text style={{margin: 10, padding: 10}}>Don't have an account</Text>
+          </View>
+        </View>
       </View>
     </ScrollView>
   );
@@ -149,7 +137,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
   },
-
   inputContainer: {
     backgroundColor: 'white',
     borderColor: 'black',
@@ -174,7 +161,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   button: {
-    backgroundColor: '#800000',
+    backgroundColor: '#0000FF',
     width: 120,
     padding: 15,
     borderRadius: 10,
@@ -188,16 +175,23 @@ const styles = StyleSheet.create({
   buttonText: {
     color: 'white',
     fontWeight: 'bold',
-    fontSize: 18,
+    justifyContent:'center',
+    letterSpacing: 0.25,
+    alignItems:'center',
+    fontSize: 16,
+    textAlign: 'center',
   },
   Adminbuttontext: {
     color: 'black',
     fontWeight: 'bold',
+    justifyContent:'center',
+    alignItems:'center',
     fontSize: 18,
+    
   },
   EmailInput: {
     backgroundColor: 'white',
-    paddingHorizontal: 58,
+    paddingHorizontal: 75,
     paddingVertical: 10,
     borderRadius: 10,
     marginTop: 5,

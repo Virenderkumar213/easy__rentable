@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, Text, SafeAreaView, Image} from 'react-native';
 import {NavigationContainer, useNavigation} from '@react-navigation/native';
-import {Component} from 'react/cjs/react.production.min';
+import {Component} from 'react';
 import {Card, ListItem, Button, Icon} from 'react-native-elements';
 
 const Item = (props) => {

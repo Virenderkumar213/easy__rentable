@@ -13,9 +13,9 @@ const MyCart = () => {
          style={{flex:1}}
          title="Check Out"
          color="#841584"
-         onPress={() => {
-           navigation.navigate('My Cart');
-         }}
+        //  onPress={() => {
+        //    navigation.navigate('My Cart');
+        //  }}
         />
     </View>
   );

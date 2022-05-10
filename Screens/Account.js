@@ -35,7 +35,7 @@ const AccountScreen = () => {
       <Button color="#ff5c5c" style={{}} title="My Orders" />
       <Button color="#ff5c5c" style={{}} title="Sign Out" />
 
-      <Text>Email: {auth.currentUser?.email}</Text>
+      <Text>Email</Text>
       <TouchableOpacity onPress={handleSignOut} style={styles.button}>
         <Text style={styles.buttonText}>Sign out</Text>
       </TouchableOpacity>
@@ -47,8 +47,8 @@ export default AccountScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
   },
   button: {
     backgroundColor: '#0782F9',

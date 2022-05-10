@@ -14,6 +14,7 @@ import DetailScreen from './Screens/DetailScreen';
 import CheckOut from './Screens/CheckOut';
 import Invoice from './Screens/Invoice';
 import {useState} from 'react';
+//import temps from './Screens/temps;'
 
 const Stack = createStackNavigator();
 
@@ -31,19 +32,21 @@ const TabNavigation = props => {
         name="Account"
         component={AccountScreen}
       />
-      
-      <Tab.Screen name="PostAd" component={PostAd} />
+      <Tab.Screen name="Post Ad">
+        {props => <PostAd {...props} extraData={user} />}
+      </Tab.Screen>
       <Tab.Screen name="Invoice" component={Invoice} />
       <Tab.Screen
         name="Categories"
         component={Categories}
       /> 
+      
     </Tab.Navigator>
   );
 };
 function App() {
   const [loading, setLoading] = useState(true);
-  const [user, setUser] = useState([13]);
+  const [user, setUser] = useState([]);
   console.log(user);
   return (
     <NavigationContainer>

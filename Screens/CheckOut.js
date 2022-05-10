@@ -13,10 +13,10 @@ const CheckOut = ()=> {
            <Text>
                500/Day
            </Text>
-           {/* <Button
+           <Button
              title="Check Out"
              color="#841584"
-           /> */}
+           />
            
        </View>
     );
