@@ -7,7 +7,6 @@ import {Card, ListItem, Button, Icon} from 'react-native-elements';
 const ListedItem = () => {
   return (
     <View>
-      <Text>Virender</Text>
       <Card title="CARD WITH DIVIDER">
         <View
           style={{

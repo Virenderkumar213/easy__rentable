@@ -10,12 +10,9 @@ const MyCart = () => {
     <View>
       <ListedItem />
       <Button 
-         style={{flex:1}}
+         style={{flex:1,justifyContent:'center'}}
          title="Check Out"
          color="#841584"
-        //  onPress={() => {
-        //    navigation.navigate('My Cart');
-        //  }}
         />
     </View>
   );

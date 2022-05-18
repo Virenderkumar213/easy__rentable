@@ -6,6 +6,7 @@ import {auth} from '../Screens/firebase';
 import {Picker} from '@react-native-picker/picker';
 //import {Dropdown} from 'react-native-material-dropdown'
 import {Card, ListItem, Button, Icon} from 'react-native-elements';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 const AccountScreen = () => {
   const navigation = useNavigation();
@@ -19,7 +20,6 @@ const AccountScreen = () => {
       .catch(error => alert(error.message));
   };
   const [pickervalue, setpickervalue] = useState('User Detail');
-
   return (
     <View style={styles.container}>
       <View style={styles.Card}>
@@ -29,16 +29,25 @@ const AccountScreen = () => {
           onValueChange={itemValue => setpickervalue(itemValue)}>
           <Picker.item label="User Name" value="User Name" />
           <Picker.item label="Email" value="Email" />
-          <Picker.item label="java" value="java" />
+          <Picker.item label="user Profile" value="user Profile" />
         </Picker>
       </View>
-      <Button color="#ff5c5c" style={{}} title="My Orders" />
-      <Button color="#ff5c5c" style={{}} title="Sign Out" />
-
-      <Text>Email</Text>
-      <TouchableOpacity onPress={handleSignOut} style={styles.button}>
-        <Text style={styles.buttonText}>Sign out</Text>
+      {/* <Button color="#ff5c5c" style={{}} title="My Orders" />
+      <Button color="#ff5c5c" style={{}} title="Sign Out" /> */}
+      <View>
+      <TouchableOpacity  style={{}}>
+        <Text style={styles.buttonText}>My Orders</Text>
+        <View style={styles.icon}>
+          <Icon name="" size={23} color="#900" />
+        </View>
+        <Text style={styles.buttonText} onPress={() => {
+            navigation.navigate('My Cart');
+          }}>Sign out</Text>
+        <View style={styles.icon}>
+          <Icon name="logout" size={23} color="#900" />
+        </View>
       </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -48,24 +57,28 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'flex-start',
-    alignItems: 'flex-start',
+    alignItems: 'center',
   },
   button: {
-    backgroundColor: '#0782F9',
+    backgroundColor: 'white',
     width: '60%',
-    padding: 15,
+    height: 60,
+    padding: 5,
     borderRadius: 10,
     alignItems: 'center',
     marginTop: 40,
   },
   buttonText: {
-    color: 'white',
-    fontWeight: '700',
+    marginRight: 90,
+    color: 'black',
     fontSize: 16,
   },
   pickers: {
-    width: 300,
+    width: 410,
     height: 45,
-    borderColor: 'blue',
+    fontSize:16,
+  },
+  icon: {
+    paddingLeft: 340,
   },
 });

@@ -1,16 +1,13 @@
 import React from 'react';
-import {View, Text, SafeAreaView, Image} from 'react-native';
+import {View, Text, SafeAreaView, Image, StyleSheet} from 'react-native';
 import {NavigationContainer, useNavigation} from '@react-navigation/native';
 import {Component} from 'react';
 import {Card, ListItem, Button, Icon} from 'react-native-elements';
 
-const Item = (props) => {
+const Item = props => {
   const navigation = useNavigation();
   return (
-    
     <View>
-      <Text>{props.name}</Text>
-      <Text>{props.price}</Text>
       <Card title="CARD WITH DIVIDER">
         <Image
           source={require('../pictures/images/1.png')}
@@ -22,23 +19,20 @@ const Item = (props) => {
           }}></Image>
         <Text style={{}}>{props.name}</Text>
         <Text>500/Day</Text>
-        <Text>this is Ps4 game ahjbbsbsbdbdw</Text>
-        <Button 
-         style={{}}
-         title="Add To Cart"
-         color="#841584"
-         onPress={() => {
-           navigation.navigate('My Cart');
-         }}
-        
+        <Text>this is Ps4 game </Text>
+        <Button
+          style={styles.button}
+          title="Add To Cart"
+          onPress={() => {
+            navigation.navigate('My Cart');
+          }}
         />
         <Button
-          style={{}}
+          style={styles.button}
           onPress={() => {
             navigation.navigate('Detail');
           }}
           title="Show More"
-          color="#841584"
         />
       </Card>
     </View>
@@ -46,3 +40,17 @@ const Item = (props) => {
 };
 
 export default Item;
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: 'white',
+  },
+  button: {
+    flex:1,
+    backgroundColor: '#0000FF',
+    width: 120,
+    marginBottom: 20,
+    padding: 50,
+    borderRadius: 10,
+  },
+});

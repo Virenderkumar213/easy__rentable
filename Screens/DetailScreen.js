@@ -40,17 +40,17 @@ function DetailScreen(props) {
              Description
           </Text>
           <Text>
-            this is ps4 hhusdfjfsjdoosdhcisdichisdhcisdhichdsichisdcisdibsidvbdbkbxkd
+            this is ps4 
           </Text>
       </Card>
-      <Card>
+      {/* <Card>
           <Text>
              Reviews
           </Text>
           <Text>
-            this is ps4 hhusdfjfsjdoosdhcisdichisdhcisdhichdsichisdcisdibsidvbdbkbxkd
+            this is ps4 
           </Text>
-      </Card>
+      </Card> */}
       </View>
       </ScrollView>
     );

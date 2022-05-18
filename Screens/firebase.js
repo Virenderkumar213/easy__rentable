@@ -21,4 +21,4 @@ if (!firebase.apps.length) {
 
 
 
-export {firebase,db};
+export  {firebase,db};

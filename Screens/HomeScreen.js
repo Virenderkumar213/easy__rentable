@@ -84,19 +84,6 @@ const HomeScreen = props => {
       setitems(arr => [...items]);
     });
   }
-  /* let data1 = [
-    {id: 1, name: 'PS4', Price: 500},
-    {id: 2, name: 'camera', Price: 199},
-    {id: 3, name: 'gaming', Price: 900},
-    {id: 4, name: 'laptop', Price: 600},
-    {id: 5, name: 'Computer', Price: 800},
-  ];*/
-
-  //  data1 =  getItems(items => {
-  //   return items;
-  // })
-
-
   console.log(props.extraData);
   const renderList = items.map(item => {
     //  console.log(props);
@@ -104,22 +91,7 @@ const HomeScreen = props => {
   });
   return (
     <ScrollView>{renderList}</ScrollView>
-    // <View style={styles.container}>
-    //   {/* <Text>HomeScreen</Text> */}
-    //   <View>
-    //     <ScrollView>
-    //       <View style={styles.container}>
-    //         <View
-    //           style={
-    //            styles.item
-    //           }>
-    //           <TouchableOpacity onPress={()=>{}}>
-    //           </TouchableOpacity>
-    //         </View>
-    //       </View>
-    //     </ScrollView>
-    //   </View>
-    // </View>
+   
   );
 };
 
@@ -128,8 +100,6 @@ export default HomeScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
   },
   button: {
     backgroundColor: '#0782F9',

@@ -17,7 +17,7 @@ const LoginScreen = () => {
 
   const navigation = useNavigation();
   const handleLogin = () => {
-  // navigation.navigate('Home');
+    // navigation.navigate('Home');
     firebase
       .auth()
       .signInWithEmailAndPassword(email, password)
@@ -90,41 +90,44 @@ const LoginScreen = () => {
             <Text style={{color: '#0000FF', fontSize: 34}}>Welcome</Text>
             <Text>
               Don't have an account?
-              <Text    onPress={() => navigation.navigate('SignUp')} 
-              style={{color: '#0000FF', fontStyle: 'italic'}}>
+              <Text
+                onPress={() => navigation.navigate('SignUp')}
+                style={{color: '#0000FF', fontStyle: 'italic'}}>
                 Register now
               </Text>
             </Text>
             <View style={{marginTop: 50}}></View>
             <View style={styles.inputContainer}>
-          <TextInput
-            placeholder="Email"
-            value={email}
-            onChangeText={text => setEmail(text)}
-            style={styles.EmailInput}
-          />
-          <TextInput
-            placeholder="Password"
-            value={password}
-            onChangeText={text => setPassword(text)}
-            style={styles.passwordInput}
-            secureTextEntry
-          />
-        </View>
-           <View style={{display: 'flex', alignItems: 'center'}}>
-          <TouchableOpacity onPress={() => handleLogin()} style={styles.button}>
-            <Text style={styles.buttonText}>Login</Text>
-          </TouchableOpacity>
-          <View style={{margin: 10, padding: 5}}>
-            <TouchableOpacity
-              onPress={() => navigation.navigate('SignUp')}
-              style={styles.button}>
-              <Text style={styles.buttonText}>SignUp</Text>
-            </TouchableOpacity>
-            <View style={{margin: 10, padding: 5}}></View>
-          </View>
-          <Text>Don't have an account</Text>
-        </View>
+              <TextInput
+                placeholder="Email"
+                value={email}
+                onChangeText={text => setEmail(text)}
+                style={styles.EmailInput}
+              />
+              <TextInput
+                placeholder="Password"
+                value={password}
+                onChangeText={text => setPassword(text)}
+                style={styles.passwordInput}
+                secureTextEntry
+              />
+            </View>
+            <View style={{display: 'flex', alignItems: 'center'}}>
+              <TouchableOpacity
+                onPress={() => handleLogin()}
+                style={styles.button}>
+                <Text style={styles.buttonText}>Login</Text>
+              </TouchableOpacity>
+              <View style={{margin: 10, padding: 5}}>
+                <TouchableOpacity
+                  onPress={() => navigation.navigate('SignUp')}
+                  style={styles.button}>
+                  <Text style={styles.buttonText}>SignUp</Text>
+                </TouchableOpacity>
+                <View style={{margin: 10, padding: 5}}></View>
+              </View>
+              <Text>Don't have an account</Text>
+            </View>
           </View>
         </View>
       </View>
@@ -138,6 +141,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   inputContainer: {
+    flex: 1,
     backgroundColor: 'white',
     borderColor: 'black',
     margin: 10,
@@ -175,19 +179,18 @@ const styles = StyleSheet.create({
   buttonText: {
     color: 'white',
     fontWeight: 'bold',
-    justifyContent:'center',
+    justifyContent: 'center',
     letterSpacing: 0.25,
-    alignItems:'center',
+    alignItems: 'center',
     fontSize: 16,
     textAlign: 'center',
   },
   Adminbuttontext: {
     color: 'black',
     fontWeight: 'bold',
-    justifyContent:'center',
-    alignItems:'center',
+    justifyContent: 'center',
+    alignItems: 'center',
     fontSize: 18,
-    
   },
   EmailInput: {
     backgroundColor: 'white',
@@ -195,8 +198,9 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     borderRadius: 10,
     marginTop: 5,
-    borderColor: 'Maroon',
+    borderColor: 'black',
     borderWidth: 1,
+
   },
 
   passwordInput: {

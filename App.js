@@ -14,6 +14,7 @@ import DetailScreen from './Screens/DetailScreen';
 import CheckOut from './Screens/CheckOut';
 import Invoice from './Screens/Invoice';
 import {useState} from 'react';
+import { Icon } from 'react-native-elements';
 //import temps from './Screens/temps;'
 
 const Stack = createStackNavigator();
@@ -24,6 +25,8 @@ const TabNavigation = props => {
   user = props.route.params.user;
   return (
     <Tab.Navigator>
+      
+   
       <Tab.Screen name="Home">
         {props => <HomeScreen {...props} extraData={user} />}
       </Tab.Screen>
@@ -33,6 +36,7 @@ const TabNavigation = props => {
         component={AccountScreen}
       />
       <Tab.Screen name="Post Ad">
+     
         {props => <PostAd {...props} extraData={user} />}
       </Tab.Screen>
       <Tab.Screen name="Invoice" component={Invoice} />
@@ -40,20 +44,29 @@ const TabNavigation = props => {
         name="Categories"
         component={Categories}
       /> 
-      
+      <Tab.Screen
+       options={{headerShown: false}}
+       name="My Cart"
+       component={MyCart}
+      />
+       <Tab.Screen
+       options={{headerShown: false}}
+       name="Detail"
+       component={DetailScreen}
+      />
     </Tab.Navigator>
   );
 };
 function App() {
   const [loading, setLoading] = useState(true);
-  const [user, setUser] = useState([]);
+  const [user, setUser] = useState([13]);
   console.log(user);
   return (
     <NavigationContainer>
       <Stack.Navigator>
         {user.length ? (
           <Stack.Screen
-            name="Home"
+            name="Home" 
             options={{headerShown: false}}
             component={TabNavigation}
             initialParams={{user}}></Stack.Screen>
@@ -74,6 +87,11 @@ function App() {
               component={TabNavigation}
               initialParams={{user}}
               options={{headerShown: false}}
+            />
+            <Stack.Screen
+              options={{headerShown: false}}
+              name="My Cart"
+              component={MyCart}
             />
           </>
         )}
