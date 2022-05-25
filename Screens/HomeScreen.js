@@ -19,7 +19,7 @@ const HomeScreen = props => {
   const [items, setitems] = useState([]);
   const navigation = useNavigation();
   const [boolitem, setboolitem] = useState(true);
-
+  
   const handleSignOut = () => {
     auth
       .signOut()
@@ -62,7 +62,7 @@ const HomeScreen = props => {
   console.log(data1);
 */
 
-  function getItems(callback) {
+function getItems(callback) {
     let ref = db.collection('items');
     this.unsubscribe = ref.onSnapshot(snapshot => {
       let items = [];
@@ -84,6 +84,7 @@ const HomeScreen = props => {
       setitems(arr => [...items]);
     });
   }
+  console.log('abc')
   console.log(props.extraData);
   const renderList = items.map(item => {
     //  console.log(props);
