@@ -17,21 +17,36 @@ import storage from '@react-native-firebase/storage';
 import {launchImageLibrary} from 'react-native-image-picker';
 import {NavigationContainer} from '@react-navigation/native';
 //import {firebase,firebaseConfig} from '../Screens/firebase';
-import {uploadBytes} from 'firebase/storage';
-
-import {firebase, fb} from '../Screens/firebase';
+//import {uploadBytes} from 'firebase/storage';
+import {firebase, fb, db} from '../Screens/firebase';
 import {initializeApp} from '@firebase/app';
-// import {auth} from '../Screens/firebase';
-// import {firebase, db} from '../Screens/firebase';
-const postAdScreen = () => {
-  // firebase.initializeApp(firebaseConfig);
+
+const postAdScreen = props => {
   fb.storage;
+  const [products, setproducts] = useState([]);
   const [name, setName] = useState('');
   const [price, setPrice] = useState('');
   const [description, setDescription] = useState('');
   const navigation = useNavigation();
+  const [boolproduct, setboolproduct] = useState(true);
   const [photo, setPhoto] = React.useState(null);
 
+  function showProduct() {
+    let Userid = props.extraData;
+    let pictureName = Userid + name;
+    let pictureURL = handleUploadPhoto(pictureName);
+    db.collection('products')
+      .add({
+        Userid: Userid,
+        name: name,
+        price: price,
+        description: description,
+        pictureURL: pictureURL,
+      })
+      .then(function () {
+        console.log('document success');
+      });
+  }
   const handleChoosePhoto = () => {
     launchImageLibrary({noData: true}, response => {
       // console.log(response);
@@ -41,24 +56,34 @@ const postAdScreen = () => {
       }
     });
   };
-  const handleUploadPhoto = () => {
-    // uploadImageToStorage(photo.assets[0].uri, 'temp');
-    // console.log('photo uploaded');
+  const handleUploadPhoto = pictureName => {
+    let extension = photo.assets[0].uri.slice(
+      ((photo.assets[0].uri.lastIndexOf('.') - 1) >>> 0) + 2,
+    );
+    const metadata = {
+      contentType: 'image/'+extension
+    };
     const storage = fb.storage;
-    let reference = firebase.storage().ref('images/abc.jpg') // 2
+    let pictureURL = 'images/' + pictureName + '.' + extension;
+    let reference = firebase.storage().ref().child(pictureURL); // 2
+    reference.prefix;
     console.log(reference);
-    let task = reference.put(photo.assets[0].uri); // 3
-    task.then(() => {                                 // 4
+    // let task = reference.put(photo.assets[0].uri); // 3
+    // let task = uploadBytes(reference,photo.assets[0].uri,metadata)
+    let task = firebase.storage().uploadBytes(reference,photo.assets[0].uri,metadata)
+    task
+      .then(() => {
+        // 4
         console.log('Image uploaded to the bucket!');
-    }).catch((e) => console.log('uploading image error => ', e));
-    // uploadBytes(reference, photo).then(snapshot => {
-    //   console.log('Uploaded a blob or file!');
-    // });
+      })
+      .catch(e => console.log('uploading image error => ', e));
+    return pictureURL;
   };
+
   return (
     <KeyboardAvoidingView style={styles.container}>
       <View style={styles.inputContainer}>
-        {/* <TextInput
+        <TextInput
           placeholder="Product Name"
           value={name}
           onChangeText={text => setName(text)}
@@ -76,8 +101,10 @@ const postAdScreen = () => {
           value={description}
           onChangeText={text => setDescription(text)}
           style={styles.input}
-        /> */}
+        />
       </View>
+      <Button title="Choose Photo" onPress={handleChoosePhoto} />
+
       <View style={styles.buttonContainer}>
         <View style={{margin: 10, padding: 5, color: 'white'}}>
           <View
@@ -86,16 +113,21 @@ const postAdScreen = () => {
               <>
                 <Image
                   source={{uri: photo.assets[0].uri}}
-                  style={{width: 300, height: 300}}
+                  style={{width: 100, height: 100}}
                 />
                 <Button
+                  title="Add Product"
+                  onPress={showProduct}
+                  style={styles.button}
+                />
+                {/* <Button
                   title="Upload Photo"
                   onPress={handleUploadPhoto}
                   style={styles.button}
-                />
+                /> */}
               </>
             )}
-            <Button title="Choose Photo" onPress={handleChoosePhoto} />
+            {/* <Button title="Choose Photo" onPress={handleChoosePhoto} /> */}
           </View>
         </View>
       </View>

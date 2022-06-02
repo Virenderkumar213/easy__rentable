@@ -11,13 +11,13 @@ const firebaseConfig = {
   appId: '1:242305993645:web:d202b207d3b2d1051e6f24',
 };
 var db;
-var fb
+var fb;
 if (!firebase.apps.length) {
- fb= firebase.initializeApp(firebaseConfig);
+  fb = firebase.initializeApp(firebaseConfig);
   db = firebase.firestore();
   db.settings({
     experimentalForceLongPolling: true,
   });
 }
 
-export {firebase,fb, db};
+export {firebase, fb, db};

@@ -13,13 +13,13 @@ import {useNavigation} from '@react-navigation/native';
 import {auth} from '../Screens/firebase';
 import {firebase, db} from '../Screens/firebase';
 import Item from '../Screens/item';
-//import firestore from '@react-native-firebase/firestore';
+import postAdScreen from '../Screens/PostAd';
 
 const HomeScreen = props => {
   const [items, setitems] = useState([]);
   const navigation = useNavigation();
   const [boolitem, setboolitem] = useState(true);
-  
+
   const handleSignOut = () => {
     auth
       .signOut()
@@ -62,8 +62,8 @@ const HomeScreen = props => {
   console.log(data1);
 */
 
-function getItems(callback) {
-    let ref = db.collection('items');
+  function getItems(callback) {
+    let ref = db.collection('products');
     this.unsubscribe = ref.onSnapshot(snapshot => {
       let items = [];
       snapshot.forEach(doc => {
@@ -84,16 +84,20 @@ function getItems(callback) {
       setitems(arr => [...items]);
     });
   }
-  console.log('abc')
   console.log(props.extraData);
   const renderList = items.map(item => {
     //  console.log(props);
-    return <Item key={item.id} name={item.ename} Price={item.eprice} />;
+    return (
+      <Item
+        key={item.id}
+        name={item.name}
+        price={item.price}
+        description={item.description}
+        pictureURL={item.pictureURL}
+      />
+    );
   });
-  return (
-    <ScrollView>{renderList}</ScrollView>
-   
-  );
+  return <ScrollView>{renderList}</ScrollView>;
 };
 
 export default HomeScreen;
