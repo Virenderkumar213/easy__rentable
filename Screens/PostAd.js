@@ -19,6 +19,7 @@ import {NavigationContainer} from '@react-navigation/native';
 //import {firebase,firebaseConfig} from '../Screens/firebase';
 //import {uploadBytes} from 'firebase/storage';
 import {firebase, fb, db} from '../Screens/firebase';
+
 import {initializeApp} from '@firebase/app';
 
 const postAdScreen = props => {
@@ -30,11 +31,14 @@ const postAdScreen = props => {
   const navigation = useNavigation();
   const [boolproduct, setboolproduct] = useState(true);
   const [photo, setPhoto] = React.useState(null);
+  const [pictureData, setPictureData] = React.useState(null);
 
-  function showProduct() {
+  function showProduct(data) {
     let Userid = props.extraData;
-    let pictureName = Userid + name;
-    let pictureURL = handleUploadPhoto(pictureName);
+    console.log(data.secure_url)
+    // let pictureName = Userid + name;
+     let pictureURL = data.secure_url
+    console.log(photo);
     db.collection('products')
       .add({
         Userid: Userid,
@@ -48,7 +52,14 @@ const postAdScreen = props => {
       });
   }
   const handleChoosePhoto = () => {
-    launchImageLibrary({noData: true}, response => {
+    const options = {
+      title: 'Select Image',
+      storageOptions: {
+        skipBackup: true,
+        //path: 'Image_Italy_',
+      },
+    };
+    launchImageLibrary(options, response => {
       // console.log(response);
       if (response) {
         setPhoto(response);
@@ -56,28 +67,66 @@ const postAdScreen = props => {
       }
     });
   };
-  const handleUploadPhoto = pictureName => {
-    let extension = photo.assets[0].uri.slice(
-      ((photo.assets[0].uri.lastIndexOf('.') - 1) >>> 0) + 2,
-    );
-    const metadata = {
-      contentType: 'image/'+extension
-    };
-    const storage = fb.storage;
-    let pictureURL = 'images/' + pictureName + '.' + extension;
-    let reference = firebase.storage().ref().child(pictureURL); // 2
-    reference.prefix;
-    console.log(reference);
-    // let task = reference.put(photo.assets[0].uri); // 3
-    // let task = uploadBytes(reference,photo.assets[0].uri,metadata)
-    let task = firebase.storage().uploadBytes(reference,photo.assets[0].uri,metadata)
-    task
-      .then(() => {
-        // 4
-        console.log('Image uploaded to the bucket!');
+  const handleUploadPhoto = () => {
+    const uri =photo.assets[0].uri;
+    const type = 'image/jpg';
+    const name = photo.assets[0].fileName;
+    const source = {uri, type, name};
+    // console.log(source);
+    handleUpdata(source);
+  };
+  // const handleUploadPhoto = pictureName => {
+  //   let extension = photo.assets[0].uri.slice(
+  //     ((photo.assets[0].uri.lastIndexOf('.') - 1) >>> 0) + 2,
+  //   );
+  //   const metadata = {
+  //     contentType: 'image/jpg'
+  //   };
+  //   const storage = fb.storage;
+  //   let pictureURL = 'images/' + pictureName + '.' + extension;
+  //   let reference = firebase.storage().ref().child(pictureURL); // 2
+  //   reference.updateMetadata(metadata);
+  //   console.log(metadata,photo.assets[0].uri)
+  //   // reference.prefix;
+  //   // reference.setMetadata(metadata)
+  //   console.log(reference);
+  //    let task = reference.put(photo.assets[0].uri); // 3
+  //    //let task = uploadBytes(reference,photo.assets[0].uri,metadata)
+  //   //  let task = fb.uploadBytes(reference,photo.assets[0].uri)
+  //   // let task = firebase.storage().uploadBytes(reference,photo.assets[0].uri,metadata)
+  //   task
+  //     .then(() => {
+  //       // 4
+  //       console.log('Image uploaded to the bucket!');
+  //     })
+  //     .catch(e => console.log('uploading image error => ', e));
+  //   return pictureURL;
+  // };
+
+  const handleUpdata = photo => {
+    const data = new FormData();
+    data.append('file', photo);
+    data.append('upload_preset', 'z9jlndcp');
+    data.append('cloud_name', 'dwb5e8sxr');
+    fetch('https://api.cloudinary.com/v1_1/dwb5e8sxr/image/upload', {
+      method: 'POST',
+      body: data,
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'multipart/form-data',
+      },
+    })
+      .then(res => res.json())
+      .then(data => {
+        // setPictureData(data);
+        // setModal(false);
+        showProduct(data)
+        // console.log(data);
       })
-      .catch(e => console.log('uploading image error => ', e));
-    return pictureURL;
+      .catch(err => {
+        console.log(err);
+        alert('Error While Uploading');
+      });
   };
 
   return (
@@ -117,7 +166,7 @@ const postAdScreen = props => {
                 />
                 <Button
                   title="Add Product"
-                  onPress={showProduct}
+                  onPress={handleUploadPhoto}
                   style={styles.button}
                 />
                 {/* <Button

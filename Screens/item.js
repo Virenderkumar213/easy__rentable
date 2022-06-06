@@ -8,18 +8,19 @@ import {firebase, fb, db} from '../Screens/firebase';
 
 const Item = props => {
   const navigation = useNavigation();
-  const [pictureURI, setPictureURI] = useState(null);
-  const image = firebase.storage().ref().child(props.pictureURL);
-  image.getDownloadURL().then(url => {
-    setPictureURI(url);
-  });
+  //const [pictureURI, setPictureURI] = useState(null);
+  //const image = firebase.storage().ref().child(props.pictureURL);
+  // image.getDownloadURL().then(url => {
+  //   setPictureURI(url);
+  // });
   return (
     <View>
-      <Card  style={styles.card}>
-        {pictureURI && (
+      <Card style={styles.card}>
+        { (
           <>
             <Image
-              source={pictureURI}
+              // source={{uri:props.pictureURL}}
+              source={{uri:"images"}}
               style={{
                 width: 350,
                 height: 200,
@@ -32,8 +33,8 @@ const Item = props => {
         <Text>{props.name}</Text>
         <Text>{props.price}</Text>
         <Text>{props.description}</Text>
-        <Text>{props.pictureURL}</Text>
-        <Text>{pictureURI}</Text>
+        {/* <Text>{props.pictureURL}</Text> */}
+        {/* <Text>{pictureURI}</Text> */}
         <Button
           style={styles.button}
           title="Add To Cart"
