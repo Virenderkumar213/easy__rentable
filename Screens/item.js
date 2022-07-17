@@ -1,10 +1,11 @@
+import {Button, Card, Icon, ListItem} from 'react-native-elements';
+import {Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {NavigationContainer, useNavigation} from '@react-navigation/native';
+import {db, fb, firebase} from '../Screens/firebase';
+
+import {Component} from 'react';
 import React from 'react';
 import {useState} from 'react';
-import {View, Text, SafeAreaView, Image, StyleSheet} from 'react-native';
-import {NavigationContainer, useNavigation} from '@react-navigation/native';
-import {Component} from 'react';
-import {Card, ListItem, Button, Icon} from 'react-native-elements';
-import {firebase, fb, db} from '../Screens/firebase';
 
 const Item = props => {
   const navigation = useNavigation();
@@ -35,20 +36,9 @@ const Item = props => {
         <Text>{props.description}</Text>
         {/* <Text>{props.pictureURL}</Text> */}
         {/* <Text>{pictureURI}</Text> */}
-        <Button
-          style={styles.button}
-          title="Add To Cart"
-          onPress={() => {
-            navigation.navigate('My Cart');
-          }}
-        />
-        <Button
-          style={styles.button}
-          onPress={() => {
-            navigation.navigate('Detail');
-          }}
-          title="Show More"
-        />
+        <TouchableOpacity style={{ width: '45%', backgroundColor: '#F75666',alignSelf: 'center',padding: 8,borderRadius: 10}}>
+          <Text style={{ fontSize: 18, alignSelf: 'center', color: '#F1F1F1'}}>Show More</Text>
+        </TouchableOpacity>
       </Card>
     </View>
   );
@@ -62,7 +52,7 @@ const styles = StyleSheet.create({
   },
   button: {
     flex: 1,
-    backgroundColor: '#0000FF',
+    backgroundColor: '#F75666',
     width: 120,
     marginBottom: 20,
     padding: 50,
@@ -75,5 +65,12 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginBottom: 20,
     padding: 15,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
 });

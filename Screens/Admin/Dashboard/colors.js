@@ -1,0 +1,9 @@
+export const colors = {
+    PRIMARYBLUE: '#05192D',
+    WHITE: '#FFFFFF',
+    PRIMARYGREY: '#C4C9CD',
+    BACKGROUNDCOLOR: '#F7F3EB',
+    PRIMARYGREEN: '#04EF63',
+    GREY: '#707070',
+    LIGHTGREY: '#E0E0E0',
+};

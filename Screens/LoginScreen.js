@@ -1,15 +1,17 @@
-import React from 'react';
-import {StyleSheet, Text, View, Image, ImageBackground} from 'react-native';
-import {useState} from 'react';
-import {NavigationContainer, useNavigation} from '@react-navigation/native';
 import {
+  Dimensions,
   KeyboardAvoidingView,
   TextInput,
   TouchableOpacity,
-  Dimensions,
 } from 'react-native';
-import {ScrollView} from 'react-native';
-import {firebase} from '../Screens/firebase';
+import { Image, ImageBackground, StyleSheet, Text, View } from 'react-native';
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import React from 'react';
+import { ScrollView } from 'react-native';
+import { firebase } from '../Screens/firebase';
+import { useState } from 'react';
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
@@ -23,6 +25,7 @@ const LoginScreen = () => {
       .signInWithEmailAndPassword(email, password)
       .then(response => {
         const uid = response.user.uid;
+        AsyncStorage.setItem('@signUpData', JSON.stringify(uid));
         const usersRef = firebase.firestore().collection('users');
         usersRef
           .doc(uid)
@@ -32,8 +35,17 @@ const LoginScreen = () => {
               alert('User does not exist anymore.');
               return;
             }
+
             const user = firestoreDocument.data();
-            navigation.navigate('Home', {user});
+            var emaill = email;
+            var name = emaill.substring(0, emaill.lastIndexOf("@"));
+            if (name == "admin") {
+              navigation.navigate('dashboard');
+            }
+            else {
+              navigation.navigate('Home', { user });
+            }
+            
           })
           .catch(error => {
             alert(error);
@@ -67,71 +79,86 @@ const LoginScreen = () => {
   };
 
   return (
-    <ScrollView style={styles.container}>
-      <View
-        style={{
-          flex: 1,
-          backgroundColor: 'white',
-        }}
-        showsVerticalScrollIndicator={false}>
-        <ImageBackground
-          source={require('../pictures/images/baks.jpg')}
-          style={{
-            height: Dimensions.get('window').height / 2.5,
+    <View style={styles.container}>
+      <View style={{ flex: 0.3,justifyContent: 'center',alignItems: 'center' }}>
+        <Image source={require('../pictures/images/logo-remov.png')} style={{width: 100,height: 100}}/>
+      </View>
+      <View style={styles.bottomview}>
+        <View style={{ padding: 40 }}>
+          <Text style={{ color: '#0B80F9', fontSize: 34, alignSelf: 'center' }}>Welcome</Text>
+          <Text style={{ color: '#000',marginTop: 10,fontSize: 17,width: '100%',textAlign: 'center'}}>Success is never Owned, It's Rented. And The Rent is Due EVERYDAY</Text>
+          <View style={{ marginTop: 40 }}></View>
+          <View style={{
+            width: '90%',
+            backgroundColor: '#D1D3D7',
+            borderRadius: 10,
+
+            shadowOffset: {
+              width: 0,
+              height: 2,
+            },
+            shadowOpacity: 0.25,
+            shadowRadius: 3.84,
+            elevation: 5,
+            alignSelf: 'center'
           }}>
-          <View style={{alignItems: 'center', justifyContent: 'center'}}>
-            <Image
-              source={require('../pictures/images/background.png')}
-              style={{width: 178, height: 150}}></Image>
+            <TextInput
+              placeholder="Email"
+              placeholderTextColor={'#000'}
+              value={email}
+              onChangeText={text => setEmail(text)}
+              style={{ marginLeft: 5, width: '85%', color: '#000', }}
+            />
           </View>
-        </ImageBackground>
-        <View style={styles.bottomview}>
-          <View style={{padding: 40}}>
-            <Text style={{color: '#0000FF', fontSize: 34}}>Welcome</Text>
-            <Text>
-              Don't have an account?
-              <Text
-                onPress={() => navigation.navigate('SignUp')}
-                style={{color: '#0000FF', fontStyle: 'italic'}}>
-                Register now
-              </Text>
-            </Text>
-            <View style={{marginTop: 50}}></View>
-            <View style={styles.inputContainer}>
-              <TextInput
-                placeholder="Email"
-                value={email}
-                onChangeText={text => setEmail(text)}
-                style={styles.EmailInput}
-              />
-              <TextInput
-                placeholder="Password"
-                value={password}
-                onChangeText={text => setPassword(text)}
-                style={styles.passwordInput}
-                secureTextEntry
-              />
+          <View style={{
+            width: '90%',
+            backgroundColor: '#D1D3D7',
+            borderRadius: 10,
+            marginTop: '5%',
+
+            shadowOffset: {
+              width: 0,
+              height: 2,
+            },
+            shadowOpacity: 0.25,
+            shadowRadius: 3.84,
+            elevation: 5,
+            alignSelf: 'center'
+          }}>
+            <TextInput
+              placeholder="Password"
+              placeholderTextColor={'#000'}
+              value={password}
+              onChangeText={text => setPassword(text)}
+              style={{ marginLeft: 5, width: '85%', color: '#000' }}
+              secureTextEntry
+            />
+          </View>
+          <View style={{ flex: 0.05 }}></View>
+          <View style={{ alignItems: 'center', marginTop: '10%', }}>
+            <TouchableOpacity
+              onPress={() => handleLogin()}
+              style={styles.button}>
+              <Text style={styles.buttonText}>Login</Text>
+            </TouchableOpacity>
+            <View style={{ margin: 10, padding: 5 }}>
+              <View style={{ margin: 10, padding: 5 }}></View>
             </View>
-            <View style={{display: 'flex', alignItems: 'center'}}>
-              <TouchableOpacity
-                onPress={() => handleLogin()}
-                style={styles.button}>
-                <Text style={styles.buttonText}>Login</Text>
+            <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+              <Text style={{ color: '#000', fontSize: 17 }}>
+                Don't have an account?
+              </Text>
+              <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
+                <Text
+                  style={{ color: '#0B80F9', marginLeft: 5, fontSize: 17 }}>
+                  Register now
+                </Text>
               </TouchableOpacity>
-              <View style={{margin: 10, padding: 5}}>
-                <TouchableOpacity
-                  onPress={() => navigation.navigate('SignUp')}
-                  style={styles.button}>
-                  <Text style={styles.buttonText}>SignUp</Text>
-                </TouchableOpacity>
-                <View style={{margin: 10, padding: 5}}></View>
-              </View>
-              <Text>Don't have an account</Text>
             </View>
           </View>
         </View>
       </View>
-    </ScrollView>
+    </View>
   );
 };
 
@@ -165,15 +192,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   button: {
-    backgroundColor: '#0000FF',
-    width: 120,
+    backgroundColor: '#0B80F9',
+    width: '50%',
     padding: 15,
     borderRadius: 10,
   },
   buttonOutline: {
     backgroundColor: 'maroon',
     marginTop: 5,
-    borderColor: '#0782F9',
+    borderColor: '#0B80F9',
     borderWidth: 2,
   },
   buttonText: {
@@ -184,6 +211,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     fontSize: 16,
     textAlign: 'center',
+    width: '100%',
   },
   Adminbuttontext: {
     color: 'black',
@@ -194,13 +222,13 @@ const styles = StyleSheet.create({
   },
   EmailInput: {
     backgroundColor: 'white',
-    paddingHorizontal: 75,
+    width: '80%',
     paddingVertical: 10,
     borderRadius: 10,
     marginTop: 5,
     borderColor: 'black',
     borderWidth: 1,
-
+    color: '#000'
   },
 
   passwordInput: {
@@ -219,11 +247,10 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
   },
   bottomview: {
-    flex: 1.5,
+    flex: 0.7,
     backgroundColor: '#ffffff',
     bottom: 50,
-    borderTopStartRadius: 60,
-    borderTopEndRadius: 60,
+
   },
 });
 export default LoginScreen;
